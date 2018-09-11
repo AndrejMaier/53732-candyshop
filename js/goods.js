@@ -1,9 +1,9 @@
 'use strict';
 
-//Число карточек
+// Число карточек
 var numberCards = 26;
 
-//Название продуктов
+// Название продуктов
 var namesProduct = [
   'Чесночные сливки',
   'Огуречный педант',
@@ -35,7 +35,7 @@ var namesProduct = [
   'Острый язычок'
 ];
 
-//Из чего состоят продукты
+// Из чего состоят продукты
 var contentsProduct = [
   'молоко',
   'сливки',
@@ -55,9 +55,9 @@ var contentsProduct = [
   'карбамид',
   'вилларибо',
   'виллабаджо'
-];
+]
 
-//Массив содержащий название файлов картинок
+// Массив содержащий название файлов картинок
 var namesPicture = [
   'gum-cedar.jpg',
   'gum-chile.jpg',
@@ -84,29 +84,52 @@ var namesPicture = [
   'soda-garlic.jpg',
   'soda-peanut-grapes.jpg',
   'soda-russian.jpg'
-]
+];
 
-//Функция создании карточки товара
-var generateCard = function() {
-  {
-    nameProduct: 'название продукта',
-    pictureUrl: '../img/',
-    amount: 'количество товаров',
-    price: 'цена продукта',
-    weight: 'вес продукта',
-    rating: {
-      value: 'отзыв',
-      number: 'число голосов',
-    },
-    nutritionFacts: {
-      sugar: 'количество сахара',
-      energy: 'энергетическая ценность',
-      contents: 'состав продукта',
-    }
-  }
-}
-
-//Функция генерации случайного числа
+// Функция генерации случайного числа
 var getRandomNumber = function(min, max) {
   return Math.floor(Math.random() * (max - min +1) + min);
 }
+
+// Функция выбора случайного значения из массива
+var getRandomValueArr = function(arr) {
+  var randomValueArr = Math.floor(Math.random() * arr.length);
+  return randomValueArr;
+};
+
+//Функция выбора случайного колличества значений из массива
+var getRandomAmountValueArr = function(arr) {
+  var copyArr = arr.slice();
+  var newArr = [];
+  var itemCount = getRandomValueArr(copyArr);
+  itemCount = itemCount > 0 ? itemCount : 1;
+  for (var i = 0; i < itemCount; i++) {
+    var randomValue = getRandomValueArr(copyArr);
+    newArr.push(copyArr[randomValue]);
+    copyArr.splice(randomValue, 1);
+  }
+  return newArr;
+};
+
+// Функция создании объекта с данными карточки товара
+var generateCard = function() {
+  var product = {
+    nameProduct: namesProduct[getRandomValueArr(namesProduct)],
+    pictureUrl: 'img/'+ namesPicture[getRandomValueArr(namesPicture)],
+    amount: getRandomNumber(0, 20),
+    price: getRandomNumber(100, 1500),
+    weight: getRandomNumber(30, 300),
+    rating: {
+      value: getRandomNumber(1, 5),
+      number: getRandomNumber(10, 900),
+    },
+    nutritionFacts: {
+      sugar: getRandomNumber(0, 1),
+      energy: getRandomNumber(70, 500),
+      contents: getRandomAmountValueArr(contentsProduct),
+    }
+  };
+  return product;
+};
+
+console.log(generateCard());
