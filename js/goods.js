@@ -89,7 +89,7 @@ var namesPicture = [
 // Функция генерации случайного числа
 var getRandomNumber = function(min, max) {
   return Math.floor(Math.random() * (max - min +1) + min);
-}
+};
 
 // Функция выбора случайного значения из массива
 var getRandomValueArr = function(arr) {
@@ -132,4 +132,40 @@ var generateCard = function() {
   return product;
 };
 
-console.log(generateCard());
+// Функция создания массива из объектов карточки товара
+var generateCards = function(amount) {
+  var arrCards = [];
+  for (var i = 0; i < amount; i++) {
+    var createCard = generateCard();
+    arrCards.push(createCard);
+  }
+  return arrCards;
+};
+
+var cardsData = generateCards(numberCards);
+
+// Задание номер 2 лекции 3
+
+var catalogCards = document.querySelector('.catalog__cards');
+catalogCards.classList.remove('catalog__cards--load');
+
+var catalogLoad = document.querySelector('.catalog__load');
+catalogLoad.classList.add('visually-hidden');
+
+var createCard = function(numberCard) {
+  var templateCard = document.querySelector('#card').content.querySelector('.catalog__card').cloneNode(true);
+  templateCard.querySelector('.card__title').textContent = numberCard.nameProduct;
+  templateCard.querySelector('.card__img').src = numberCard.pictureUrl;
+  
+  if (numberCard.amount >= 1 && numberCard.amount <= 5) {
+    templateCard.querySelector('.catalog__card').classList.remove('card--in-stock');
+    templateCard.querySelector('.catalog__card').classList.add('card--little');
+  } else if (numberCard.amount === 0) {
+    templateCard.querySelector('.catalog__card').classList.remove('card--in-stock');
+    templateCard.querySelector('.catalog__card').classList.add('card--soon');
+  }
+  
+  templateCard.querySelector('.card__price')
+  
+  return templateCard;
+}
