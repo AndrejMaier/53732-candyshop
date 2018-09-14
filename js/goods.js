@@ -199,3 +199,36 @@ var createCard = function(numberCard) {
   };
 
 addWebsite(cardsData, catalogCards, createCard);
+
+// Задание 3 Лекции 3
+var cardsInOrder = 3;
+var goodOrder = document.querySelector('#card-order');
+var goodsCards = document.querySelector('.goods__cards');
+var goodsCardsEmpty = document.querySelector('.goods__card-empty');
+goodsCards.classList.remove('goods__cards--empty');
+goodsCardsEmpty.classList.add('visually-hidden');
+
+// Функция выбора случайного значения из массива для корзины
+var getRandomArr = function(arr, numberValue) {
+  var copyArr = arr.slice();
+  var newArr = [];
+  for (var i = 0; i < numberValue; i++) {
+    var randomValue = getRandomValueArr(copyArr);
+    newArr.push(copyArr[randomValue]);
+    copyArr.splice(randomValue, 1);
+  }
+  return newArr;
+}
+
+var goodCardsInOrder = getRandomArr(cardsData, cardsInOrder);
+
+// Функция наполнения карточки товаров в корзине информацией
+var createGoodCard = function(card) {
+  var cardElement = goodOrder.content.cloneNode(true);
+  cardElement.querySelector('.card-order__title').textContent = card.name;
+  cardElement.querySelector('.card-order__img').src = card.picture;
+  cardElement.querySelector('.card-order__price').textContent = card.price + ' ₽';
+  return cardElement;
+}
+
+addWebsite(goodCardsInOrder, goodsCards, createGoodCard);
