@@ -62,7 +62,7 @@ var namesPicture = [
   'gum-cedar.jpg',
   'gum-chile.jpg',
   'gum-eggplant.jpg',
-  'gum-mustang.jpg',
+  'gum-mustard.jpg',
   'gum-portwine.jpg',
   'gum-wasabi.jpg',
   'ice-cucumber.jpg',
@@ -115,7 +115,7 @@ var getRandomAmountValueArr = function(arr) {
 var generateCard = function() {
   var product = {
     nameProduct: namesProduct[getRandomValueArr(namesProduct)],
-    pictureUrl: 'img/'+ namesPicture[getRandomValueArr(namesPicture)],
+    pictureUrl: 'img/cards/'+ namesPicture[getRandomValueArr(namesPicture)],
     amount: getRandomNumber(0, 20),
     price: getRandomNumber(100, 1500),
     weight: getRandomNumber(30, 300),
@@ -159,21 +159,17 @@ var createCard = function(numberCard) {
   templateCard.querySelector('.card__img').src = numberCard.pictureUrl;
   
   if (numberCard.amount >= 1 && numberCard.amount <= 5) {
-    templateCard.querySelector('.catalog__card').classList.remove('card--in-stock');
-    templateCard.querySelector('.catalog__card').classList.add('card--little');
+    templateCard.classList.remove('card--in-stock');
+    templateCard.classList.add('card--little');
   } else if (numberCard.amount === 0) {
-    templateCard.querySelector('.catalog__card').classList.remove('card--in-stock');
-    templateCard.querySelector('.catalog__card').classList.add('card--soon');
+    templateCard.classList.remove('card--in-stock');
+    templateCard.classList.add('card--soon');
   }
   
   templateCard.querySelector('.card__price').firstChild.textContent = numberCard.price;
   templateCard.querySelector('.card__weight').textContent = '/ ' + numberCard.weight;
   
-  if (numberCard.nutritionFacts.sugar === true) {
-    templateCard.querySelector('.card__characteristic').textContent = 'Содержит сахар. ' + numberCard.nutritionFacts.energy + ' калл';
-  } else {
-    templateCard.querySelector('.card__characteristic').textContent = 'Без сахара. ' + numberCard.nutritionFacts.energy + ' калл';
-  }
+  (numberCard.nutritionFacts.sugar === true) ? templateCard.querySelector('.card__characteristic').textContent = 'Содержит сахар. ' + numberCard.nutritionFacts.energy + ' калл' : templateCard.querySelector('.card__characteristic').textContent = 'Без сахара. ' + numberCard.nutritionFacts.energy + ' калл';
   
   templateCard.querySelector('.card__composition-list').textContent = numberCard.nutritionFacts.contents;
   
@@ -181,24 +177,24 @@ var createCard = function(numberCard) {
   var rating = 'stars__rating--' + ratings[numberCard.rating.value - 1];
   
   if (numberCard.rating.value !== 5) {
-      cardElement.querySelector('.stars__rating').classList.remove('stars__rating--five');
-      cardElement.querySelector('.stars__rating').classList.add(rating);
-      cardElement.querySelector('.stars__rating').textContent = 'Рейтинг: ' + numberCard.rating.value + ' звёзд';
+      templateCard.querySelector('.stars__rating').classList.remove('stars__rating--five');
+      templateCard.querySelector('.stars__rating').classList.add(rating);
+      templateCard.querySelector('.stars__rating').textContent = 'Рейтинг: ' + numberCard.rating.value + ' звёзд';
   }
   
   return templateCard;
 };
 
 // Добавляет карточку товара на сайт
-  var addWebsite = function(amountArrs, appendTo, renderCard) {
+  var addWebsite = function(amountArrs, appendTo) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < amountArrs.length; i++) {
-      fragment.appendChild(renderCard(amountArrs[i]));
+      fragment.appendChild(createCard(amountArrs[i]));
     }
     appendTo.appendChild(fragment);
   };
 
-addWebsite(cardsData, catalogCards, createCard);
+addWebsite(cardsData, catalogCards);
 
 // Задание 3 Лекции 3
 var cardsInOrder = 3;
