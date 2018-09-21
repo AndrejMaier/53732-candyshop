@@ -91,20 +91,14 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-// Функция выбора случайного значения из массива
-var getRandomValueArr = function (arr) {
-  var randomValueArr = Math.floor(Math.random() * arr.length);
-  return randomValueArr;
-};
-
 // Функция выбора случайного колличества значений из массива
 var getRandomAmountValueArr = function (arr) {
   var copyArr = arr.slice();
   var newArr = [];
-  var itemCount = getRandomValueArr(copyArr);
+  var itemCount = getRandomNumber(0, copyArr.length - 1);
   itemCount = itemCount > 0 ? itemCount : 1;
   for (var i = 0; i < itemCount; i++) {
-    var randomValue = getRandomValueArr(copyArr);
+    var randomValue = getRandomNumber(0, copyArr.length - 1);
     newArr.push(copyArr[randomValue]);
     copyArr.splice(randomValue, 1);
   }
@@ -114,8 +108,8 @@ var getRandomAmountValueArr = function (arr) {
 // Функция создании объекта с данными карточки товара
 var generateCard = function () {
   var product = {
-    nameProduct: namesProduct[getRandomValueArr(namesProduct)],
-    pictureUrl: 'img/cards/' + namesPicture[getRandomValueArr(namesPicture)],
+    nameProduct: namesProduct[getRandomNumber(0, namesProduct.length - 1)],
+    pictureUrl: 'img/cards/' + namesPicture[getRandomNumber(0, namesPicture.length - 1)],
     amount: getRandomNumber(0, 20),
     price: getRandomNumber(100, 1500),
     weight: getRandomNumber(30, 300),
@@ -166,11 +160,7 @@ var createCard = function (numberCard) {
   }
   templateCard.querySelector('.card__price').firstChild.textContent = numberCard.price;
   templateCard.querySelector('.card__weight').textContent = '/ ' + numberCard.weight;
-  if (numberCard.nutritionFacts.sugar === true) {
-    templateCard.querySelector('.card__characteristic').textContent = 'Содержит сахар. ' + numberCard.nutritionFacts.energy + ' калл';
-  } else {
-    templateCard.querySelector('.card__characteristic').textContent = 'Без сахара. ' + numberCard.nutritionFacts.energy + ' калл';
-  }
+  templateCard.querySelector('.card__characteristic').textContent = (numberCard.nutritionFacts.sugar ? 'Содержит сахар. ' : 'Без сахара. ') + numberCard.nutritionFacts.energy + ' калл';
   templateCard.querySelector('.card__composition-list').textContent = numberCard.nutritionFacts.contents;
   var ratings = ['one', 'two', 'three', 'four', 'five'];
   var rating = 'stars__rating--' + ratings[numberCard.rating.value - 1];
@@ -206,7 +196,7 @@ var getRandomArr = function (arr, numberValue) {
   var copyArr = arr.slice();
   var newArr = [];
   for (var i = 0; i < numberValue; i++) {
-    var randomValue = getRandomValueArr(copyArr);
+    var randomValue = getRandomNumber(0, copyArr.length - 1);
     newArr.push(copyArr[randomValue]);
     copyArr.splice(randomValue, 1);
   }
