@@ -215,3 +215,12 @@ var createGoodCard = function (card) {
 };
 
 addWebsite(goodCardsInOrder, goodsCards, createGoodCard);
+
+// Задание 1.1 Лекции 4
+var cardButtonsFavorite = document.querySelectorAll('.card__btn-favorite');
+
+for (var i = 0; i < cardButtonsFavorite.length; i++) {
+  cardButtonsFavorite[i].addEventListener('click', function () {
+    this.classList.toggle('card__btn-favorite--selected');
+  })
+}
